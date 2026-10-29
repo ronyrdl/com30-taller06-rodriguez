@@ -1,0 +1,30 @@
+:host { display: block; }
+.page { width: min(980px, calc(100% - 32px)); margin: 40px auto 72px; }
+.hero { margin: 0 0 28px; }
+.eyebrow { color: #9a5b17; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
+h1 { margin: 8px 0; font-size: clamp(2rem, 5vw, 3.2rem); }
+.hero > p:last-child, .muted { color: #64748b; }
+.card { background: white; border: 1px solid #dbe3ec; border-radius: 16px; padding: 24px; margin: 20px 0; box-shadow: 0 8px 24px #152c4710; }
+h2, h3, p { margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+label { display: grid; gap: 7px; color: #344256; font-weight: 600; }
+input, select { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #172033; font: inherit; }
+input:focus, select:focus { outline: 3px solid #f3d6aa; border-color: #a85e10; }
+small, .error { color: #b42318; }
+small { font-weight: 500; }
+.error { margin: 8px 0 0; }
+.items-heading, .item-row, .reservation { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.items-heading { margin: 24px 0 12px; }
+.items-heading h2, .items-heading h3 { margin: 0; }
+.item-row { align-items: end; padding: 12px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 10px; }
+.item-row label { flex: 1; }
+button { border: 0; border-radius: 8px; padding: 10px 14px; font: inherit; font-weight: 700; cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.primary { margin-top: 20px; color: white; background: #174b71; }
+.secondary { background: #edf3f8; color: #174b71; }
+.remove { background: #fff1f0; color: #a52a22; }
+.reservation { padding: 16px 0; border-top: 1px solid #e2e8f0; }
+.reservation h3 { margin-bottom: 6px; }
+.reservation p { margin: 3px 0; color: #64748b; }
+.reservation select { width: auto; }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .card { padding: 18px; } .item-row, .reservation { align-items: stretch; flex-direction: column; } .reservation select { width: 100%; } }

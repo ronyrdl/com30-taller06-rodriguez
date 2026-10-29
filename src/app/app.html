@@ -1,0 +1,75 @@
+<main class="page">
+  <header class="hero">
+    <p class="eyebrow">COM30 · Taller 06</p>
+    <h1>Reserva de espacios</h1>
+    <p>Registra una solicitud con su horario y los recursos que necesitas.</p>
+  </header>
+
+  <section class="card">
+    <h2>Nueva solicitud</h2>
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+      <div class="grid">
+        <label>Responsable
+          <input formControlName="responsable" autocomplete="name" />
+          @if (form.controls.responsable.invalid && (form.controls.responsable.touched || form.controls.responsable.dirty)) {
+            @if (form.controls.responsable.hasError('required')) { <small>Escribe el nombre del responsable.</small> }
+            @else if (form.controls.responsable.hasError('soloEspacios')) { <small>El nombre no puede contener solo espacios.</small> }
+          }
+        </label>
+        <label>Espacio
+          <input formControlName="espacio" placeholder="Auditorio, sala..." />
+          @if (form.controls.espacio.invalid && (form.controls.espacio.touched || form.controls.espacio.dirty)) {
+            @if (form.controls.espacio.hasError('required')) { <small>Indica el espacio.</small> }
+            @else if (form.controls.espacio.hasError('minlength')) { <small>Escribe al menos 3 caracteres.</small> }
+          }
+        </label>
+        <label>Fecha <input type="date" formControlName="fecha" /></label>
+        <label>Asistentes <input type="number" min="1" formControlName="asistentes" /></label>
+        <label>Hora de inicio <input type="time" formControlName="horaInicio" /></label>
+        <label>Hora de fin <input type="time" formControlName="horaFin" /></label>
+      </div>
+      @if (form.hasError('rangoHorario') && (form.controls.horaInicio.touched || form.controls.horaInicio.dirty || form.controls.horaFin.touched || form.controls.horaFin.dirty)) {
+        <p class="error">La hora de fin debe ser posterior a la hora de inicio.</p>
+      }
+      @if (form.controls.asistentes.invalid && (form.controls.asistentes.touched || form.controls.asistentes.dirty)) {
+        <p class="error">El número de asistentes debe ser al menos 1.</p>
+      }
+
+      <div class="items-heading"><h3>Recursos</h3><button type="button" class="secondary" (click)="agregarRecurso()">Añadir recurso</button></div>
+      <div formArrayName="recursos" class="items">
+        @for (item of recursos.controls; track $index; let i = $index) {
+          <div class="item-row" [formGroupName]="i">
+            <label>Recurso <input formControlName="recurso" placeholder="Proyector" /></label>
+            <label>Cantidad <input type="number" min="1" formControlName="cantidad" /></label>
+            <button type="button" class="remove" (click)="quitarRecurso(i)" [disabled]="recursos.length === 1">Quitar</button>
+          </div>
+        } @empty {
+          <p class="muted">Agrega al menos un recurso.</p>
+        }
+      </div>
+      @if (recursos.invalid && (recursos.touched || recursos.dirty)) { <p class="error">La reserva requiere al menos un recurso válido.</p> }
+      <button class="primary" type="submit" [disabled]="form.invalid">Guardar reserva</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="items-heading"><h2>Solicitudes</h2><p>{{ registros.total() }} en total · {{ registros.pendientes() }} pendientes</p></div>
+    @if (registros.reservas().length === 0) {
+      <p class="muted">Todavía no hay reservas. Completa el formulario para agregar la primera.</p>
+    } @else {
+      <div class="reservations">
+        @for (reserva of registros.reservas(); track reserva.id) {
+          <article class="reservation">
+            <div><h3>{{ reserva.espacio }}</h3><p>{{ reserva.responsable }} · {{ reserva.fecha }} · {{ reserva.horaInicio }}–{{ reserva.horaFin }}</p><p>{{ reserva.asistentes }} asistentes · {{ reserva.recursos.length }} recursos</p></div>
+            <select [value]="reserva.estado" (change)="cambiarEstado(reserva.id, $any($event.target).value)" aria-label="Estado de la reserva">
+              @for (estado of estados; track estado) { <option [value]="estado">{{ estado }}</option> }
+            </select>
+            <button type="button" class="remove" (click)="registros.eliminar(reserva.id)">Eliminar</button>
+          </article>
+        } @empty {
+          <p class="muted">No hay solicitudes para mostrar.</p>
+        }
+      </div>
+    }
+  </section>
+</main>
