@@ -5,13 +5,13 @@ Aplicación de una sola pantalla para registrar solicitudes de reserva de espaci
 ## Requisitos
 
 - Node.js compatible con la versión de Angular del proyecto
-- pnpm
+- npm, incluido con Node.js
 
 ## Ejecutar
 
 ```bash
-pnpm install
-pnpm start
+npm install
+npm start
 ```
 
 La aplicación queda disponible en `http://localhost:4200`.
@@ -19,5 +19,5 @@ La aplicación queda disponible en `http://localhost:4200`.
 ## Compilar
 
 ```bash
-pnpm build
+npm run build
 ```
