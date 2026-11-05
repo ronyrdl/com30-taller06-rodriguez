@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstadoReserva, Recurso } from './models/registro.model';
 import { RegistroService } from './services/registro.service';
 import { horarioPosterior, minimoItems, textoNoVacio } from './validators/reserva.validators';
+
+type RecursoForm = FormGroup<{ recurso: FormControl<string>; cantidad: FormControl<number> }>;
 
 @Component({
   selector: 'app-root',
@@ -29,7 +31,7 @@ export class App {
     { validators: [horarioPosterior] },
   );
 
-  get recursos(): FormArray {
+  get recursos(): FormArray<RecursoForm> {
     return this.form.controls.recursos;
   }
 
@@ -47,6 +49,7 @@ export class App {
   quitarRecurso(indice: number): void {
     this.recursos.removeAt(indice);
     this.recursos.markAsDirty();
+    this.recursos.markAsTouched();
   }
 
   guardar(): void {
@@ -57,7 +60,12 @@ export class App {
     const value = this.form.getRawValue();
     this.registros.agregar({ ...value, recursos: value.recursos as Recurso[] });
     this.form.reset({
-      responsable: '', espacio: '', fecha: '', horaInicio: '', horaFin: '', asistentes: 1,
+      responsable: '',
+      espacio: '',
+      fecha: '',
+      horaInicio: '',
+      horaFin: '',
+      asistentes: 1,
       recursos: [{ recurso: '', cantidad: 1 }],
     });
   }
@@ -65,4 +73,5 @@ export class App {
   cambiarEstado(id: number, value: string): void {
     this.registros.cambiarEstado(id, value as EstadoReserva);
   }
+
 }

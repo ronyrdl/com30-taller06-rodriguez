@@ -7,6 +7,8 @@ export class RegistroService {
   readonly reservas = this._reservas.asReadonly();
   readonly total = computed(() => this._reservas().length);
   readonly pendientes = computed(() => this._reservas().filter((r) => r.estado === 'Pendiente').length);
+  readonly aprobadas = computed(() => this._reservas().filter((r) => r.estado === 'Aprobada').length);
+  readonly rechazadas = computed(() => this._reservas().filter((r) => r.estado === 'Rechazada').length);
   private siguienteId = 1;
 
   agregar(datos: NuevaReserva): void {
