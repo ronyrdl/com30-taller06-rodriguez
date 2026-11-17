@@ -40,11 +40,10 @@
         <select
           id="estado-reserva"
           #estado
-          [value]="registro.estado"
           (change)="cambiarEstado(registro.id, estado.value)"
         >
           @for (opcion of estados; track opcion) {
-            <option [value]="opcion">{{ opcion }}</option>
+            <option [value]="opcion" [selected]="opcion === registro.estado">{{ opcion }}</option>
           }
         </select>
       </label>
