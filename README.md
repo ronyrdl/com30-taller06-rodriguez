@@ -1,32 +1,38 @@
-# COM30 Taller 07 — Búsqueda reactiva de reservas
+# COM30 Taller 08 — Rutas y navegación de reservas
 
-Aplicación Angular para el escenario E3 de reserva de espacios universitarios. Amplía el
-Taller 06 con 12 reservas iniciales y un buscador por responsable o espacio que ignora
-tildes, mayúsculas y espacios en los extremos. El formulario permite registrar solicitudes
-con horario, asistentes y recursos, y cambiar su estado desde el listado.
+Aplicación Angular para la reserva de espacios universitarios. Continúa el Taller 07
+con cinco vistas y conserva las 12 reservas de ejemplo, el servicio con signals y la
+búsqueda reactiva por responsable o espacio en el listado.
 
 ## Ejecutar
 
-Con Node.js compatible con Angular 22 y npm, ejecuta desde la raíz del repositorio:
-
-```bash
-npm ci
-npm start
-```
-
+Con Node.js y npm instalados, ejecuta `npm ci` y `npm start` en la raíz del proyecto.
 Abre [http://localhost:4200](http://localhost:4200).
 
-## Probar la búsqueda
+## Rutas
 
-- Escribe al menos dos caracteres. La búsqueda espera 300 ms de pausa y simula un
-  retardo de `max(150, 1500 − 300 × longitud)` ms.
-- Prueba `sala`, `SÁRA` o `laboratorio`. Usa `zzzx` para ver el estado sin coincidencias.
-- Cambia el filtro de estado y comprueba que el contador de llamadas permanece igual.
-- Para ver la cancelación, escribe `sa`, espera 400 ms y completa `salon` en menos de
-  300 ms. La tabla final contiene solo los tres salones.
+| Ruta | Vista | Parámetro o carga |
+| --- | --- | --- |
+| `/` | Redirección al listado | Coincidencia completa |
+| `/reservas` | Listado de reservas | `?estado=Pendiente\|Aprobada\|Rechazada` |
+| `/reservas/nueva` | Alta de reserva | Formulario reactivo |
+| `/reservas/:id` | Detalle de reserva | Código, por ejemplo `R05` |
+| `/estadisticas` | Estadísticas de reservas | Carga diferida con `loadComponent` |
+| Cualquier otra ruta | Página 404 | Muestra la dirección solicitada |
+
+Prueba `/reservas?estado=Aprobada` y recarga. El filtro se conserva en la URL.
+Al guardar una reserva válida, la aplicación abre su detalle. Las altas y los cambios
+viven en memoria durante la sesión y una recarga restaura los datos de ejemplo.
+
+Para comprobar la carga diferida, abre **F12 → Red → JS** en el listado y pulsa
+**Estadísticas**. El navegador solicita su chunk la primera vez. Si vuelves al listado
+y entras de nuevo en la misma sesión, no lo descarga otra vez.
 
 ## Compilar
 
 ```bash
 npx ng build
 ```
+
+El flujo de GitHub Pages usa una copia de `index.html` como `404.html` para que Angular
+pueda atender enlaces directos y recargas en las rutas del sitio.

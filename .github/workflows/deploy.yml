@@ -29,6 +29,8 @@ jobs:
         run: npm ci
       - name: Compilar para GitHub Pages
         run: npm run build -- --base-href /com30-taller06-rodriguez/
+      - name: Habilitar la recarga de rutas de Angular
+        run: cp dist/com30-taller06/browser/index.html dist/com30-taller06/browser/404.html
       - name: Preparar artefacto de Pages
         uses: actions/upload-pages-artifact@v4
         with:
