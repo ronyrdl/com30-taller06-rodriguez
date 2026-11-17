@@ -1,0 +1,85 @@
+<section aria-labelledby="busqueda-titulo">
+  <h2 id="busqueda-titulo">Buscar reservas</h2>
+  <div class="controles">
+    <label for="buscar-reservas"
+      >Responsable o espacio
+      <input
+        id="buscar-reservas"
+        type="search"
+        [formControl]="busqueda"
+        placeholder="Ej. Sala Norte o Camila"
+        autocomplete="off"
+      />
+    </label>
+    <label for="filtrar-estado"
+      >Filtrar por estado
+      <select
+        id="filtrar-estado"
+        #estado
+        [value]="filtro()"
+        (change)="filtro.set($any(estado.value))"
+      >
+        <option value="Todos">Todos</option>
+        @for (opcion of estados; track opcion) {
+          <option [value]="opcion">{{ opcion }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  <div aria-live="polite" class="indicadores">
+    <span
+      >Total: <strong id="total-busqueda">{{ total() }}</strong></span
+    >
+    @for (opcion of estados; track opcion) {
+      <span
+        >{{ opcion }}: <strong>{{ conteo()[opcion] }}</strong></span
+      >
+    }
+    <span
+      >Llamadas: <strong id="llamadas-busqueda">{{ llamadas() }}</strong></span
+    >
+  </div>
+
+  @if (texto().length < 2) {
+    <p class="mensaje" role="status">Escribe al menos 2 caracteres.</p>
+  } @else if (buscando()) {
+    <p class="mensaje" role="status">Buscando…</p>
+  } @else {
+    <div class="tabla">
+      <table aria-label="Resultados de la búsqueda">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Responsable</th>
+            <th scope="col">Espacio</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (reserva of visibles(); track reserva.id) {
+            <tr>
+              <td>{{ reserva.id }}</td>
+              <td>{{ reserva.responsable }}</td>
+              <td>{{ reserva.espacio }}</td>
+              <td>{{ reserva.estado }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4"><span role="status">Sin coincidencias</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (historial().length) {
+    <h3>Últimas consultas</h3>
+    <ol aria-label="Últimas consultas">
+      @for (consulta of historial(); track $index) {
+        <li>{{ consulta }}</li>
+      }
+    </ol>
+  }
+</section>

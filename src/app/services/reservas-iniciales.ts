@@ -15,14 +15,16 @@ const solicitudes: [string, string, EstadoReserva][] = [
   ['Sara Gómez', 'Laboratorio de Física', 'Rechazada'],
 ];
 
-export const reservasIniciales: Reserva[] = solicitudes.map(([responsable, espacio, estado], indice) => ({
-  id: indice + 1,
-  responsable,
-  espacio,
-  fecha: '2026-11-30',
-  horaInicio: '09:00',
-  horaFin: '10:00',
-  asistentes: 12,
-  recursos: [{ recurso: 'Proyector', cantidad: 1 }],
-  estado,
-}));
+export const reservasIniciales: Reserva[] = solicitudes.map(
+  ([responsable, espacio, estado], indice) => ({
+    id: indice + 1,
+    responsable,
+    espacio,
+    fecha: '2026-11-30',
+    horaInicio: '09:00',
+    horaFin: '10:00',
+    asistentes: 12,
+    recursos: [{ recurso: 'Proyector', cantidad: 1 }],
+    estado,
+  }),
+);

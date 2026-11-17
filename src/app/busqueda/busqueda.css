@@ -1,0 +1,84 @@
+:host {
+  display: block;
+}
+h2 {
+  margin: 0 0 16px;
+}
+h3 {
+  margin: 22px 0 10px;
+  font-size: 1rem;
+}
+.controles {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+label {
+  display: grid;
+  gap: 7px;
+  color: #344256;
+  font-weight: 600;
+}
+input,
+select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #172033;
+  font: inherit;
+}
+input:focus,
+select:focus {
+  outline: 3px solid #f3d6aa;
+  border-color: #a85e10;
+}
+.indicadores,
+ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.indicadores {
+  margin: 16px 0;
+}
+.indicadores span,
+li {
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: #edf3f8;
+  color: #174b71;
+}
+.mensaje {
+  margin: 0;
+  color: #475569;
+}
+.tabla {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+th,
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+th {
+  background: #f4f7fa;
+  color: #344256;
+}
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .controles {
+    grid-template-columns: 1fr;
+  }
+}
