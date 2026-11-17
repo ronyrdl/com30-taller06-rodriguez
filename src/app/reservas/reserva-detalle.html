@@ -1,0 +1,57 @@
+<section class="card" aria-labelledby="detalle-titulo">
+  <a class="volver" routerLink="/reservas">Volver al listado</a>
+  @if (reserva(); as registro) {
+    <h2 id="detalle-titulo">Reserva {{ id() }}</h2>
+    <dl class="detalle-reserva">
+      <div>
+        <dt>Responsable</dt>
+        <dd>{{ registro.responsable }}</dd>
+      </div>
+      <div>
+        <dt>Espacio</dt>
+        <dd>{{ registro.espacio }}</dd>
+      </div>
+      <div>
+        <dt>Fecha</dt>
+        <dd>{{ registro.fecha }}</dd>
+      </div>
+      <div>
+        <dt>Horario</dt>
+        <dd>{{ registro.horaInicio }}–{{ registro.horaFin }}</dd>
+      </div>
+      <div>
+        <dt>Asistentes</dt>
+        <dd>{{ registro.asistentes }}</dd>
+      </div>
+      <div>
+        <dt>Estado actual</dt>
+        <dd>{{ registro.estado }}</dd>
+      </div>
+    </dl>
+    <h3>Recursos</h3>
+    <ul>
+      @for (recurso of registro.recursos; track $index) {
+        <li>{{ recurso.recurso }} × {{ recurso.cantidad }}</li>
+      }
+    </ul>
+    <div class="acciones-detalle">
+      <label for="estado-reserva"
+        >Cambiar estado
+        <select
+          id="estado-reserva"
+          #estado
+          [value]="registro.estado"
+          (change)="cambiarEstado(registro.id, estado.value)"
+        >
+          @for (opcion of estados; track opcion) {
+            <option [value]="opcion">{{ opcion }}</option>
+          }
+        </select>
+      </label>
+      <button type="button" class="remove" (click)="eliminar(registro.id)">Eliminar reserva</button>
+    </div>
+  } @else {
+    <h2 id="detalle-titulo">Reserva {{ id() }}</h2>
+    <p>No existe la reserva {{ id() }}.</p>
+  }
+</section>

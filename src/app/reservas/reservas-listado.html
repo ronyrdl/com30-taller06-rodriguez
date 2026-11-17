@@ -1,0 +1,67 @@
+<details class="card busqueda-avanzada">
+  <summary>Buscar por responsable o espacio</summary>
+  <app-busqueda />
+</details>
+
+<section class="card" aria-labelledby="listado-titulo">
+  <div class="cabecera-lista">
+    <h2 id="listado-titulo">Listado de reservas</h2>
+    <a routerLink="/reservas/nueva">Registrar reserva</a>
+  </div>
+
+  <nav class="enlaces filtros" aria-label="Filtrar reservas por estado">
+    <a
+      routerLink="/reservas"
+      [class.activo]="estado() === undefined"
+      [attr.aria-current]="estado() === undefined ? 'true' : null"
+      >Todas</a
+    >
+    @for (opcion of estados; track opcion) {
+      <a
+        routerLink="/reservas"
+        [queryParams]="{ estado: opcion }"
+        [class.activo]="estado() === opcion"
+        [attr.aria-current]="estado() === opcion ? 'true' : null"
+        >{{ opcion }}</a
+      >
+    }
+  </nav>
+
+  <p class="muted" aria-live="polite">{{ visibles().length }} reservas</p>
+  <div class="tabla-reservas">
+    <table aria-label="Reservas">
+      <thead>
+        <tr>
+          <th scope="col">Código</th>
+          <th scope="col">Responsable</th>
+          <th scope="col">Espacio</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (reserva of visibles(); track reserva.id) {
+          <tr>
+            <th scope="row">
+              <a [routerLink]="['/reservas', codigoReserva(reserva.id)]">{{
+                codigoReserva(reserva.id)
+              }}</a>
+            </th>
+            <td>{{ reserva.responsable }}</td>
+            <td>{{ reserva.espacio }}</td>
+            <td>{{ reserva.estado }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4">
+              @if (estado() !== undefined) {
+                No hay reservas con el estado «{{ estado() }}».
+              } @else {
+                Todavía no hay reservas.
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
