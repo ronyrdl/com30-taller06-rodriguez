@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Busqueda } from './busqueda/busqueda';
 import { EstadoReserva, Recurso } from './models/registro.model';
 import { RegistroService } from './services/registro.service';
 import { horarioPosterior, minimoItems, textoNoVacio } from './validators/reserva.validators';
@@ -9,7 +10,7 @@ type RecursoForm = FormGroup<{ recurso: FormControl<string>; cantidad: FormContr
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Busqueda],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
