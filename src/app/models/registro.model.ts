@@ -18,3 +18,7 @@ export interface Reserva {
 }
 
 export type NuevaReserva = Omit<Reserva, 'id' | 'estado'>;
+
+export function codigoReserva(id: number): string {
+  return 'R' + String(id).padStart(2, '0');
+}

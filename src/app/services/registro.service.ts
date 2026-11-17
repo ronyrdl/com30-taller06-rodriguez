@@ -34,9 +34,10 @@ export class RegistroService {
     });
   }
 
-  agregar(datos: NuevaReserva): void {
+  agregar(datos: NuevaReserva): Reserva {
     const reserva: Reserva = { ...datos, id: this.siguienteId++, estado: 'Pendiente' };
     this._reservas.update((actuales) => [...actuales, reserva]);
+    return reserva;
   }
 
   cambiarEstado(id: number, estado: EstadoReserva): void {
