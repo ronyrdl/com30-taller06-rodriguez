@@ -1,3 +1,5 @@
+import { Parcial2 } from './parcial2/parcial2';
+import { DetalleParcial } from './parcial2/detalle';
 import { Routes } from '@angular/router';
 import { NoEncontrada } from './no-encontrada';
 import { ReservaDetalle } from './reservas/reserva-detalle';
@@ -14,5 +16,7 @@ export const routes: Routes = [
     title: 'Estadísticas de reservas',
     loadComponent: () => import('./reservas/estadisticas').then((modulo) => modulo.Estadisticas),
   },
+  { path: 'parcial2', component: Parcial2, title: 'Solicitud validada' },
+  { path: 'parcial2/detalle/:codigo', component: DetalleParcial, title: 'Detalle de solicitud' },
   { path: '**', component: NoEncontrada, title: 'Página no encontrada' },
 ];
