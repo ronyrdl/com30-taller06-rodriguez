@@ -34,9 +34,9 @@ export class Parcial2 {
   enviado = false;
   readonly form = this.fb.group({
     codigo: ['', [Validators.required, Validators.pattern(PATRON_CODIGO)]],
-    cantidad: [0, [Validators.required, Validators.min(1), Validators.max(TOPE), multiplo(M)]],
-    desde: [7, Validators.required],
-    hasta: [8, Validators.required],
+    cantidad: ['0', [Validators.required, Validators.min(1), Validators.max(TOPE), multiplo(M)]],
+    desde: ['7', Validators.required],
+    hasta: ['8', Validators.required],
   }, { validators: hastaMayor });
 
   guardar(): void {

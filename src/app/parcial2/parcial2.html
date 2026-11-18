@@ -5,7 +5,7 @@
     <div class="grid">
       @for (campo of ['codigo', 'cantidad', 'desde', 'hasta']; track campo) {
         <label [for]="'parcial-' + campo">{{ campo }}
-          <input [id]="'parcial-' + campo" [type]="campo === 'codigo' ? 'text' : 'number'" [formControlName]="campo" />
+          <input [id]="'parcial-' + campo" type="text" [attr.inputmode]="campo === 'codigo' ? 'text' : 'numeric'" [formControlName]="campo" />
           @let control = form.get(campo);
           @if (control && (control.touched || control.dirty || enviado)) {
             @if (control.hasError('required')) { <small>Campo obligatorio.</small> }
