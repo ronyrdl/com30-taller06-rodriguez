@@ -1,0 +1,26 @@
+<section class="card">
+  <h2>Solicitud de recursos</h2>
+  <p>Cantidad de 1 a {{ tope }}, en múltiplos de {{ m }}.</p>
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="grid">
+      @for (campo of ['codigo', 'cantidad', 'desde', 'hasta']; track campo) {
+        <label [for]="'parcial-' + campo">{{ campo }}
+          <input [id]="'parcial-' + campo" [type]="campo === 'codigo' ? 'text' : 'number'" [formControlName]="campo" />
+          @let control = form.get(campo);
+          @if (control && (control.touched || control.dirty || enviado)) {
+            @if (control.hasError('required')) { <small>Campo obligatorio.</small> }
+            @if (control.hasError('pattern')) { <small>Usa dos letras mayúsculas y tres dígitos.</small> }
+            @if (control.hasError('min')) { <small>La cantidad mínima es 1.</small> }
+            @if (control.hasError('max')) { <small>La cantidad máxima es {{ tope }}.</small> }
+            @if (control.hasError('multiplo')) { <small>Debe ser múltiplo de {{ m }}.</small> }
+          }
+          @if (campo === 'hasta' && form.hasError('hastaMayor') &&
+            (enviado || form.controls.desde.touched || form.controls.desde.dirty || form.controls.hasta.touched || form.controls.hasta.dirty)) {
+            <small>Hasta debe ser mayor que desde.</small>
+          }
+        </label>
+      }
+    </div>
+    <button type="submit" class="primary">Ver detalle</button>
+  </form>
+</section>
