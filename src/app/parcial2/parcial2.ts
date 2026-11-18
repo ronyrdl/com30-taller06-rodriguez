@@ -1,5 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, computed, inject } from '@angular/core';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged, map, scan } from 'rxjs';
+import { RegistroService } from '../services/registro.service';
 import { Router } from '@angular/router';
 import { hastaMayor, M, PATRON_CODIGO, TOPE, multiplo } from './validadores';
 
@@ -11,6 +14,21 @@ import { hastaMayor, M, PATRON_CODIGO, TOPE, multiplo } from './validadores';
 export class Parcial2 {
   private readonly fb = inject(FormBuilder).nonNullable;
   private readonly router = inject(Router);
+  private readonly registros = inject(RegistroService);
+  readonly buscar = new FormControl('', { nonNullable: true });
+  readonly emision = toSignal(this.buscar.valueChanges.pipe(
+    map((texto) => texto.trim()),
+    debounceTime(300),
+    distinctUntilChanged(),
+    scan((anterior, valor) => ({ valor, total: anterior.total + 1 }), { valor: '', total: 0 }),
+  ), { initialValue: { valor: '', total: 0 } });
+  readonly visibles = computed(() => {
+    const texto = this.emision().valor.toLocaleLowerCase();
+    return this.registros.reservas().filter((reserva) =>
+      reserva.responsable.toLocaleLowerCase().includes(texto) ||
+      reserva.espacio.toLocaleLowerCase().includes(texto),
+    );
+  });
   readonly m = M;
   readonly tope = TOPE;
   enviado = false;

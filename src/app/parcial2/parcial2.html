@@ -24,3 +24,19 @@
     <button type="submit" class="primary">Ver detalle</button>
   </form>
 </section>
+
+<section class="card">
+  <h2>Búsqueda de reservas</h2>
+  <label for="parcial-buscar">Buscar
+    <input id="parcial-buscar" [formControl]="buscar" type="search" />
+  </label>
+  <p aria-live="polite">Último valor: <strong id="ultimo-valor">{{ emision().valor }}</strong></p>
+  <p>Emisiones: <strong id="emisiones">{{ emision().total }}</strong></p>
+  <ul>
+    @for (reserva of visibles(); track reserva.id) {
+      <li>{{ reserva.responsable }} · {{ reserva.espacio }}</li>
+    } @empty {
+      <li>Sin coincidencias.</li>
+    }
+  </ul>
+</section>
