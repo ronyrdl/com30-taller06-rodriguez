@@ -5,10 +5,14 @@ export const TOPE = 12;
 export const PATRON_CODIGO = /^[A-Z]{2}[0-9]{3}$/;
 
 export function multiplo(m: number): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null =>
-    Number.isFinite(Number(control.value)) && Number(control.value) % m !== 0
+  return (control: AbstractControl): ValidationErrors | null => {
+    const texto = String(control.value).trim();
+    const valor = Number(control.value);
+    if (control.value === '') return null;
+    return texto === '' || !Number.isFinite(valor) || valor % m !== 0
       ? { multiplo: { m } }
       : null;
+  };
 }
 
 export const hastaMayor: ValidatorFn = (grupo: AbstractControl): ValidationErrors | null => {
